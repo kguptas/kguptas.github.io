@@ -22,9 +22,8 @@ const About = () => {
                         <img src="/assets/kriti_about.svg" alt="grid-1" className="w-full sm:h-[276px] h-fit object-contain"/> {/*what does alt tag do: image description*/}
                         <div>
                             <p className="grid-headtext">Hi, I'm Kriti</p>
-                            <p className="grid-subtext">As a recent computer science graduate from the University of Michigan,
-                                I am focusing on honing my skills in adopting bleeding-edge technologies, exploring Agentic AI
-                                and having delved into new AR/VR frameworks in college.</p>
+                            <p className="grid-subtext">As a recent Computer Science graduate from the University of Michigan,
+                                I am focused on honing my skills with cutting-edge technologies, exploring Agentic AI, and working with emerging AR/VR frameworks.</p>
                         </div>
                     </div>
                 </div>
