@@ -1,16 +1,25 @@
-import { useMemo, useState } from "react";
+import { Component, useMemo } from "react";
 
-// --- Error Boundary to catch render/runtime errors in children ---
-function ErrorBoundary({ children, fallback }) {
-    const [error, setError] = useState(null);
+// --- Proper Error Boundary using class component ---
+class ErrorBoundary extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { error: null };
+    }
 
-    // Simple boundary using a try/catch render wrapper
-    try {
-        if (error) return fallback(error);
-        return children;
-    } catch (e) {
-        setError(e);
-        return fallback(e);
+    static getDerivedStateFromError(error) {
+        return { error };
+    }
+
+    componentDidCatch(error, errorInfo) {
+        console.error("ErrorBoundary caught:", error, errorInfo);
+    }
+
+    render() {
+        if (this.state.error) {
+            return this.props.fallback(this.state.error);
+        }
+        return this.props.children;
     }
 }
 
@@ -18,7 +27,6 @@ function ErrorBoundary({ children, fallback }) {
 function detectWebGL() {
     try {
         const c = document.createElement("canvas");
-        // Try WebGL2 first, then WebGL1
         const gl =
             c.getContext("webgl2") ||
             c.getContext("webgl") ||
@@ -30,7 +38,6 @@ function detectWebGL() {
 }
 
 export default function GateWithBoundary({ children }) {
-    // Run once, synchronously (avoids showing App before we know)
     const supported = useMemo(() => detectWebGL(), []);
 
     if (!supported) {
@@ -40,8 +47,6 @@ export default function GateWithBoundary({ children }) {
                 <p>
                     WebGL seems disabled or unsupported on your browser. Try Safari or try changing your Chrome browser settings (toggle on "Use graphics acceleration when available" in system settings).
                 </p>
-                {/* Add a preview image or simple non-3D hero if you have one */}
-                {/* <img src="/fallback/preview.jpg" style={{maxWidth:'100%'}} alt="" /> */}
             </div>
         );
     }
